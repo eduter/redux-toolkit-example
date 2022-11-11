@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
-  decrement,
   increment,
   incrementByAmount,
   incrementAsync,
@@ -11,7 +11,7 @@ import {
 } from './counterSlice';
 import styles from './Counter.module.css';
 
-export function Counter() {
+function _Counter({ increment }: ConnectedProps<typeof connector>) {
   const count = useAppSelector(selectCount);
   const dispatch = useAppDispatch();
   const [incrementAmount, setIncrementAmount] = useState('2');
@@ -24,7 +24,7 @@ export function Counter() {
         <button
           className={styles.button}
           aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
+          onClick={() => dispatch(() => 'not an action')} // no effect and no error/warning of any kind
         >
           -
         </button>
@@ -32,7 +32,7 @@ export function Counter() {
         <button
           className={styles.button}
           aria-label="Increment value"
-          onClick={() => dispatch(increment())}
+          onClick={increment} // A non-serializable value was detected in an action, in the path: `payload`.
         >
           +
         </button>
@@ -66,3 +66,10 @@ export function Counter() {
     </div>
   );
 }
+
+const mapDispatchToProps = {
+  increment
+};
+
+const connector = connect(undefined, mapDispatchToProps);
+export const Counter = connector(_Counter);
