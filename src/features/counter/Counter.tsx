@@ -4,7 +4,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
   increment,
-  incrementByAmount,
   incrementAsync,
   incrementIfOdd,
   selectCount,
@@ -46,7 +45,7 @@ function _Counter({ increment }: ConnectedProps<typeof connector>) {
         />
         <button
           className={styles.button}
-          onClick={() => dispatch(incrementByAmount(incrementValue))}
+          onClick={() => dispatch({ type: 'anything goes' })}
         >
           Add Amount
         </button>
